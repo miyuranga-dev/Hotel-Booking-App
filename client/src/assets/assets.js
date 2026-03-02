@@ -37,6 +37,11 @@ import listIcon from "./listIcon.svg";
 import uploadArea from "./uploadArea.svg";
 import totalBookingIcon from "./totalBookingIcon.svg";
 import totalRevenueIcon from "./totalRevenueIcon.svg";
+import yoga from "./yoga.jpg";
+import beach from "./beach.jpg";
+import spa from "./spa.jpg";
+import me from "./me.png";
+import heroabout from "./heroabout.jpg";
 
 
 export const assets = {
@@ -72,6 +77,8 @@ export const assets = {
     uploadArea,
     totalBookingIcon,
     totalRevenueIcon,
+    me,
+    heroabout
 }
 
 export const cities = [
@@ -264,3 +271,21 @@ const BookIcon = ()=>(
 )
 
 */
+
+export const experiences = [
+  {
+    title: "Sunset Yoga on the Terrace",
+    description: "Relax and unwind with a guided yoga session while enjoying breathtaking sunset views.",
+    image: yoga,
+  },
+   {
+    title: "Spa & Wellness Retreat",
+     description: "Indulge in massages, aromatherapy, and relaxation sessions in our luxury spa.",
+     image: spa,
+   },
+   {
+     title: "Private Beach Picnic",
+     description: "Enjoy a curated beach picnic with gourmet food, music, and stunning ocean views.",
+     image: beach,
+   },
+];
