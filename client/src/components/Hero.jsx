@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { assets, cities } from "../assets/assets"
 import { useAppContext } from "../context/AppContext";
+import { motion } from "framer-motion";
 
 function Hero() {
   const [destination, setDestination] = useState("");
@@ -22,57 +23,126 @@ function Hero() {
   }
 
   return (
-    <div className="flex flex-col items-start justify-center px-6 md:px-16 lg:px-24 xl:px-32 text-white bg-[url('/src/assets/heroImage.png')] bg-center bg-cover bg-no-repeat h-screen">
-      <p className="bg-[#49b9FF]/50 px-3.5 py-1 rounded-full mt-20">The Ultimate Hotel Experience</p>
-      <h1 className="font-playfair text-2xl md:text-5xl md:text-[56px] md:leading-[56px] font-bold md:font-extrabold max-w-xl mt-4">Discover Your Perfect Gateway Destination</h1>
-      <p className="max-w-[450px] mt-2 text-sm md:text-base">Unparalledled luxury and comfort await at the world's most exclusive hotels and resorts. Start your journey today</p>
+  <section className="relative min-h-screen flex items-center justify-center bg-[url('/src/assets/heroImage.png')] bg-cover bg-center">
 
-      <form onSubmit={onSearch} className='bg-white text-gray-500 rounded-lg px-6 py-4  flex flex-col md:flex-row max-md:items-start gap-4 max-md:mx-auto mt-8'>
+    {/* Overlay */}
+    <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40"></div>
 
-        <div>
-          <div className='flex items-center gap-2'>
-            <svg className="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" >
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 10h16M8 14h8m-4-7V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
-            </svg>
-            <label htmlFor="destinationInput">Destination</label>
-          </div>
-          <input onChange={(e)=>setDestination(e.target.value)} value={destination} list='destinations' id="destinationInput" type="text" className=" rounded border border-gray-200 px-3 py-1.5 mt-1.5 text-sm outline-none" placeholder="Type here" required />
-          <datalist id='destinations'>
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1, ease: "easeOut" }}
+      className="relative z-10 w-full max-w-6xl px-6 md:px-16 text-white text-center"
+    >
+
+      {/* Badge */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.8 }}
+        className="inline-block mb-6 px-5 py-2 rounded-full border border-white/30 bg-white/10 backdrop-blur-md text-sm tracking-widest uppercase"
+      >
+        Luxury Hotel Booking
+      </motion.div>
+
+      {/* Heading */}
+      <motion.h1
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 1 }}
+        className="font-playfair text-4xl md:text-6xl lg:text-7xl font-bold leading-tight"
+      >
+        Find Your Next <span className="text-[#49b9FF]">Luxury Escape</span>
+      </motion.h1>
+
+      {/* Subtitle */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.9, duration: 1 }}
+        className="mt-6 text-white/80 max-w-2xl mx-auto text-base md:text-lg"
+      >
+        Discover hand-picked hotels and unforgettable stays across the world.
+        Comfort, elegance, and seamless booking — all in one place.
+      </motion.p>
+
+      {/* Search Card */}
+      <motion.form
+        onSubmit={onSearch}
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.2, duration: 1 }}
+        className="mt-12 bg-white/95 backdrop-blur-2xl shadow-2xl rounded-3xl p-6 md:p-8 grid grid-cols-1 md:grid-cols-5 gap-6 text-left"
+      >
+
+        {/* Destination */}
+        <div className="flex flex-col">
+          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            Destination
+          </label>
+          <input
+            onChange={(e) => setDestination(e.target.value)}
+            value={destination}
+            list="destinations"
+            type="text"
+            placeholder="Where are you going?"
+            required
+            className="mt-2 text-gray-800 font-medium border-b border-gray-200 focus:border-black outline-none pb-2 bg-transparent"
+          />
+          <datalist id="destinations">
             {cities.map((city, index) => (
               <option value={city} key={index} />
             ))}
           </datalist>
-
         </div>
 
-        <div>
-          <div className='flex items-center gap-2'>
-            <img src={assets.calenderIcon} alt="calender-icon" className="h-4" />
-            <label htmlFor="checkIn">Check in</label>
-          </div>
-          <input id="checkIn" type="date" className=" rounded border border-gray-200 px-3 py-1.5 mt-1.5 text-sm outline-none" />
+        {/* Check In */}
+        <div className="flex flex-col">
+          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            Check In
+          </label>
+          <input
+            type="date"
+            className="mt-2 text-gray-800 border-b border-gray-200 focus:border-black outline-none pb-2 bg-transparent"
+          />
         </div>
 
-        <div>
-          <div className='flex items-center gap-2'>
-            <img src={assets.calenderIcon} alt="calender-icon" className="h-4" />
-            <label htmlFor="checkOut">Check out</label>
-          </div>
-          <input id="checkOut" type="date" className=" rounded border border-gray-200 px-3 py-1.5 mt-1.5 text-sm outline-none" />
+        {/* Check Out */}
+        <div className="flex flex-col">
+          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            Check Out
+          </label>
+          <input
+            type="date"
+            className="mt-2 text-gray-800 border-b border-gray-200 focus:border-black outline-none pb-2 bg-transparent"
+          />
         </div>
 
-        <div className='flex md:flex-col max-md:gap-2 max-md:items-center'>
-          <label htmlFor="guests">Guests</label>
-          <input min={1} max={4} id="guests" type="number" className=" rounded border border-gray-200 px-3 py-1.5 mt-1.5 text-sm outline-none  max-w-16" placeholder="0" />
+        {/* Guests */}
+        <div className="flex flex-col">
+          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            Guests
+          </label>
+          <input
+            min={1}
+            max={4}
+            type="number"
+            placeholder="1"
+            className="mt-2 text-gray-800 border-b border-gray-200 focus:border-black outline-none pb-2 bg-transparent"
+          />
         </div>
 
-        <button className='flex items-center justify-center gap-1 rounded-md bg-black py-3 px-4 text-white my-auto cursor-pointer max-md:w-full max-md:py-1' >
-          <img src={assets.searchIcon} alt="search-icon" className="h-7" />
-          <span>Search</span>
-        </button>
-      </form>
-    </div>
-  )
+        {/* Button */}
+        <div className="flex items-end">
+          <button className="w-full bg-black hover:bg-[#49b9FF] transition-all duration-300 text-white font-semibold py-3 rounded-2xl shadow-lg hover:shadow-2xl">
+            Search
+          </button>
+        </div>
+
+      </motion.form>
+    </motion.div>
+  </section>
+);
 }
 
 export default Hero

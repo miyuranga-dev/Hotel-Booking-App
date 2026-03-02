@@ -73,22 +73,55 @@ export const createBooking = async (req, res) => {
         const mailOption = {
             from: process.env.SENDER_EMAIL,
             to: req.user.email,
-            subject: 'Hotel Booking Details',
+            subject: `Your Booking Confirmation - ${roomData.hotel.name}`,
             html: `
-            <h2>Your Booking Details</h2>
-            <p>Dear ${req.user.username}</p>
-            <p>Thank you for your booking! Here are your Details:</p>
-            <ul>
-            <li><strong>Booking ID :</strong> ${booking._id}</li>
-            <li><strong>Hotel Name :</strong> ${roomData.hotel.name}</li>
-            <li><strong>Location :</strong> ${roomData.hotel.address}</li>
-            <li><strong>Date :</strong> ${booking.checkInDate.toDateString()}</li>
-            <li><strong>Booking Amount :</strong>${process.env.CURRENCY || 'LKR'} ${booking.totalPrice} /night</li>
-            </ul>
-            <p>We look forward to welcoming you!</p>
-            <p>If you need to make any changes, feel free to contact us.</p>
-            `
-        }
+    <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
+      <h2 style="color: #2c3e50; text-align: center;">Booking Confirmation</h2>
+      <p>Dear <strong>${req.user.username}</strong>,</p>
+      <p>Thank you for choosing <strong>${roomData.hotel.name}</strong> for your stay! We are excited to host you. Here are your booking details:</p>
+      
+      <table style="width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 15px;">
+        <tbody>
+          <tr>
+            <td style="padding: 8px; font-weight: bold;">Booking ID:</td>
+            <td style="padding: 8px;">${booking._id}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; font-weight: bold;">Hotel Name:</td>
+            <td style="padding: 8px;">${roomData.hotel.name}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; font-weight: bold;">Location:</td>
+            <td style="padding: 8px;">${roomData.hotel.address}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; font-weight: bold;">Check-In Date:</td>
+            <td style="padding: 8px;">${booking.checkInDate.toDateString()}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; font-weight: bold;">Check-Out Date:</td>
+            <td style="padding: 8px;">${booking.checkOutDate.toDateString()}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; font-weight: bold;">Booking Amount:</td>
+            <td style="padding: 8px;">${process.env.CURRENCY || 'LKR'} ${booking.totalPrice} /night</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>If you need to make any changes or have any questions, please <a href="mailto:${process.env.SUPPORT_EMAIL}" style="color: #3498db; text-decoration: none;">contact us</a>. We are here to help!</p>
+
+      <p>We look forward to welcoming you and wish you a wonderful stay!</p>
+
+      <p style="margin-top: 30px; font-size: 0.9em; color: #7f8c8d;">Best regards,<br/>
+      <strong>QuickStay Team</strong></p>
+
+      <hr style="margin-top: 20px; border: none; border-top: 1px solid #ddd;" />
+
+      <p style="font-size: 0.8em; color: #999; text-align: center;">This is an automated email. Please do not reply directly to this message. For assistance, contact <a href="mailto:${process.env.SUPPORT_EMAIL}" style="color: #3498db;">support</a>.</p>
+    </div>
+  `
+        };
         await transporter.sendMail(mailOption)
         res.status(201).json({
             success: true,
